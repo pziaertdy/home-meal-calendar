@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#faedf1">
+  <meta name="description" content="13 天家常菜午晚餐安排。日期自动更新、点选或拖动交换菜品、本机保存与离线可用。">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="家常菜单">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+  <link rel="icon" href="./icon-192.png" sizes="192x192" type="image/png">
+  <link rel="stylesheet" href="./styles.css">
+  <title>家常日历 · 13天午晚餐</title>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <div class="background-orb orb-one" aria-hidden="true"></div>
+  <div class="background-orb orb-two" aria-hidden="true"></div>
+  <main class="app-shell">
+    <header class="site-header">
+      <div class="branding">
+        <div class="brand-mark" aria-hidden="true">✿</div>
+        <div><span class="brand-eyebrow">LITTLE DAILY RITUALS</span><strong>家常日历</strong></div>
+      </div>
+      <button class="icon-button settings-button" type="button" id="open-settings" aria-label="备份、恢复与帮助" title="备份与恢复">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="8" cy="7" r="2" fill="#fff"/><circle cx="16" cy="12" r="2" fill="#fff"/><circle cx="10" cy="17" r="2" fill="#fff"/></svg>
+      </button>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="hero-pretitle"><span class="little-sparkle">✦</span> 每天一份小期待</div>
+        <h1 id="hero-title">一日两餐，<br><em>好好吃饭。</em></h1>
+        <p>26 道拿手菜，刚好陪你过 13 天。</p>
+        <div class="hero-badges"><span>☀️ 午餐一菜</span><span>☾ 晚餐一菜</span><span>↔ 自由互换</span></div>
+      </div>
+      <div class="hero-deco" aria-hidden="true">
+        <span class="hero-star star1">✳</span><span class="hero-star star2">✧</span><span class="hero-star star3">✦</span>
+        <div class="plate"><div class="plate-ring"><span class="plate-leaf">❧</span><span class="plate-heart">♥</span><span class="plate-small">♥</span></div></div>
+        <span class="hero-caption">bon appétit</span>
+      </div>
+    </section>
+
+    <section class="today-panel" id="today-panel" aria-live="polite"></section>
+    <div id="storage-warning" class="notice warning" role="alert" hidden></div>
+
+    <section class="schedule-section" aria-labelledby="schedule-heading">
+      <div class="section-heading">
+        <div><span class="section-eyebrow">MY LITTLE MEAL PLAN</span><h2 id="schedule-heading">十三天的烟火气 <span>✳</span></h2></div>
+        <button type="button" id="jump-today" class="subtle-button">定位今日 <span aria-hidden="true">↗</span></button>
+      </div>
+      <div class="date-range">
+        <span class="date-range-dot"></span>
+        <time datetime="2026-10-12">2026.10.12</time><span class="range-line">—</span><time datetime="2026-10-24">10.24</time>
+        <span class="range-note">共 13 天 · 26 道不重复</span>
+      </div>
+      <p class="instruction"><span aria-hidden="true">☝</span> 点第一道菜，再点第二道交换；也可按住菜品右侧的 <b>⠿</b> 拖到其他位置。</p>
+      <div id="schedule" class="schedule" aria-label="13天午餐及晚餐日历"></div>
+    </section>
+
+    <footer class="page-footer">
+      <div class="footer-flower" aria-hidden="true">✿</div>
+      <p>每天认真吃饭，就是生活里小小的幸福。</p>
+      <span>本机保存 · 无账号 · 无广告</span>
+    </footer>
+  </main>
+
+  <div class="selection-bar" id="selection-bar" hidden role="status" aria-live="polite">
+    <div class="selection-content"><span class="selection-symbol">↔</span><div><b id="selected-name">已选择第一道菜</b><small>再点任意一道菜，即可交换两个位置</small></div></div>
+    <button type="button" id="cancel-select" class="selection-cancel">取消</button>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden><span id="toast-message"></span><button type="button" id="undo-button" hidden>撤销</button></div>
+
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title">
+    <div class="dialog-head"><div><span class="section-eyebrow">KEEP YOUR LITTLE PLANS</span><h2 id="settings-title">备份与设置</h2></div><button class="icon-button" type="button" id="close-settings" aria-label="关闭设置">✕</button></div>
+    <p class="dialog-intro">菜品交换会自动保存到<span class="emphasis">当前手机上的这个 App</span>。不需要账户，也不会上传服务器。</p>
+    <div class="dialog-action-list">
+      <button class="dialog-action" id="export-backup" type="button"><span class="action-icon">↓</span><span><strong>导出备份</strong><small>保存到 iPhone「文件」或分享为 JSON 文件</small></span><span class="action-chevron">›</span></button>
+      <button class="dialog-action" id="import-backup" type="button"><span class="action-icon">↑</span><span><strong>恢复备份</strong><small>选择之前导出的 JSON，核实后恢复</small></span><span class="action-chevron">›</span></button>
+      <input id="import-file" type="file" accept=".json,application/json" hidden>
+      <button class="dialog-action reset-action" id="reset-schedule" type="button"><span class="action-icon">↺</span><span><strong>恢复原始排班</strong><small>重置 13 天排班，操作前会确认</small></span><span class="action-chevron">›</span></button>
+    </div>
+    <div class="dialog-info"><h3>使用小贴士</h3><p>① 在两道菜之间交换，26 道菜永远不会重名或遗漏。</p><p>② 更换手机、清除网站数据或删除主屏幕 App 前，建议先导出备份。</p><p>③ 首次在 Safari 打开 HTTPS 网址后，「分享 → 添加到主屏幕」，即可独立打开。完整加载一次后可离线使用。</p><p>④ 手机日历上的「今日」根据 iPhone 本地日期自动变化；固定排班为 2026 年 10 月 12—24 日。</p></div>
+    <div class="build-note" id="build-note">离线状态检测中…</div>
+  </dialog>
+</body>
+</html>

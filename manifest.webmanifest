@@ -1,0 +1,16 @@
+{
+  "name": "家常日历 · 13天午晚餐",
+  "short_name": "家常菜单",
+  "description": "13 天 26 道家常菜，自动标记今日、点击或拖动交换、离线可用。",
+  "lang": "zh-CN",
+  "start_url": "./index.html?source=homescreen",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fff9fa",
+  "theme_color": "#faedf1",
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
